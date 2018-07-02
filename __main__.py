@@ -1,15 +1,18 @@
 from argparse import ArgumentParser
 from os.path import exists, join as pjoin
+from sys import argv
 
+APPNAME = argv[0].split('/')[-2]
 cfg_array = list()
 base_dir = str()
 last_indent = 0
 
 def main():
+    global APPNAME
     global cfg_array
     global base_dir
 
-    aparser = ArgumentParser('python -m ncm', description='Nginx config merger')
+    aparser = ArgumentParser('python -m {0}'.format(APPNAME), description='Nginx config merger')
     aparser.add_argument('-f', help='Path to nginx config', metavar='config_file', required=True)
     aparser.add_argument('-b', help='Nginx configurations base dir', metavar='nginx_base')
     args = aparser.parse_args()
