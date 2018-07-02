@@ -40,10 +40,11 @@ def process_file(file_path):
 
     with open(file_path, 'r') as cfg_file:
         for cfg_line in cfg_file:
+            cfg_line = cfg_line.replace("\n", '')
             line_split = cfg_line.split()
             
-            if len(line_split) > 1 and 'include' in line_split:
-                inc_cfg_file = line_split[1]
+            if len(line_split) > 1 and 'include' in line_split and '#' not in cfg_line:
+                inc_cfg_file = line_split[1].replace(';', '')
 
                 if not exists(inc_cfg_file):
                     inc_cfg_file = pjoin(base_dir, inc_cfg_file)
