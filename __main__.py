@@ -1,15 +1,15 @@
 from argparse import ArgumentParser
 from os.path import exists, join as pjoin
-from sys import argv
 
 cfg_array = list()
 base_dir = str()
+last_indent = 0
 
 def main():
     global cfg_array
     global base_dir
 
-    aparser = ArgumentParser(description='Nginx config merger')
+    aparser = ArgumentParser('python -m ncm', description='Nginx config merger')
     aparser.add_argument('-f', help='Path to nginx config', metavar='config_file', required=True)
     aparser.add_argument('-b', help='Nginx configurations base dir', metavar='nginx_base')
     args = aparser.parse_args()
@@ -33,6 +33,15 @@ def main():
     process_file(cfg_file_path)
 
     print("\n".join(cfg_array))
+
+def detect_indent(line):
+    global last_indent
+
+    for char in line:
+        if char == ' ':
+            last_indent += 1
+        else:
+            break
 
 def process_file(file_path):
     global cfg_array
